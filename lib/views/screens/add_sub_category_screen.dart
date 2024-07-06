@@ -2,16 +2,12 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_asset_picker/form_builder_asset_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:get/get_utils/src/get_utils/get_utils.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:uttam_toys/Model/category_model.dart';
 import 'package:uttam_toys/Model/get_all_category.dart';
 import 'package:uttam_toys/Model/result_model.dart';
 import 'package:uttam_toys/constants/dimens.dart';
@@ -145,16 +141,16 @@ class _AddSubCatgeoryScreenState extends State<AddSubCatgeoryScreen> {
                                 Expanded(
                                   flex: 1,
                                   child: FormBuilderTextField(
-                                    name: 'Category Name',
+                                    name: 'Sub Category Name',
                                     controller: _dnameController,
                                     decoration: const InputDecoration(
-                                      labelText: 'Category Name',
-                                      hintText: 'Category Name',
+                                      labelText: 'Sub Category Name',
+                                      hintText: 'Sub Category Name',
                                       border: OutlineInputBorder(),
                                       floatingLabelBehavior: FloatingLabelBehavior.always,
                                     ),
                                     onSaved: (value1) => (_dnameController.text = value1 ?? ''),
-                                    validator: FormBuilderValidators.required(errorText: "Please enter Category Name"),
+                                    validator: FormBuilderValidators.required(errorText: "Please enter Sub Category Name"),
                                   ),
                                 ),
 

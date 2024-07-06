@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:uttam_toys/providers/user_data_provider.dart';
 import 'package:uttam_toys/views/screens/add_age_screen.dart';
 import 'package:uttam_toys/views/screens/add_brand_screen.dart';
+import 'package:uttam_toys/views/screens/add_product_screen.dart';
 import 'package:uttam_toys/views/screens/add_sub_category_screen.dart';
 import 'package:uttam_toys/views/screens/age_screen.dart';
 import 'package:uttam_toys/views/screens/brand_screen.dart';
@@ -11,6 +12,7 @@ import 'package:uttam_toys/views/screens/personal_profile_screen.dart';
 import 'package:uttam_toys/views/screens/login_screen.dart';
 import 'package:uttam_toys/views/screens/logout_screen.dart';
 import 'package:uttam_toys/views/screens/my_profile_screen.dart';
+import 'package:uttam_toys/views/screens/product_screen.dart';
 import 'package:uttam_toys/views/screens/requirement_screen.dart';
 import 'package:uttam_toys/views/screens/category_screen.dart';
 import 'package:uttam_toys/views/screens/sub_category_screen.dart';
@@ -30,6 +32,7 @@ class RouteUri {
   static const String login = '/login';
   static const String addCategory = '/Category';
   static const String age = '/Age';
+  static const String productScreen = '/productScreen';
   static const String brand = '/Brand';
   static const String SubCategory = '/SubCategory';
   static const String personalprofile = '/personalprofile';
@@ -39,6 +42,7 @@ class RouteUri {
   static const String addCatgeoryScreen = '/addCatgeoryScreen';
   static const String addBrandScreen = '/addBrandScreen';
   static const String addAgeScreen = '/addAgeScreen';
+  static const String addProductScreen = '/addProductScreen';
   static const String addSubCatgeoryScreen = '/addSubCatgeoryScreen';
   static const String requirementdetails = '/requirementdetails:userId';
   static const String userStory = '/userStory:userId';
@@ -101,6 +105,13 @@ GoRouter appRouter(UserDataProvider userDataProvider) {
         pageBuilder: (context, state) => NoTransitionPage<void>(
           key: state.pageKey,
           child: const AgeScreen(),
+        ),
+      ),
+      GoRoute(
+        path: RouteUri.productScreen,
+        pageBuilder: (context, state) => NoTransitionPage<void>(
+          key: state.pageKey,
+          child: const ProductScreen(),
         ),
       ),
       GoRoute(
@@ -167,6 +178,11 @@ GoRouter appRouter(UserDataProvider userDataProvider) {
         name: "addAgeScreen",
         path: RouteUri.addAgeScreen,
         builder: (context, state) => AddAgeScreen(),
+      ),
+      GoRoute(
+        name: "addProductScreen",
+        path: RouteUri.addProductScreen,
+        builder: (context, state) => AddProductScreen(),
       ),
       GoRoute(
         name: "addSubCatgeoryScreen",

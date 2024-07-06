@@ -438,6 +438,16 @@ class Lang {
       args: [count],
     );
   }
+  String product(num count) {
+    return Intl.plural(
+      count,
+      one: 'Product',
+      other: 'product',
+      name: 'product',
+      desc: '',
+      args: [count],
+    );
+  }
   String age(num count) {
     return Intl.plural(
       count,
@@ -688,16 +698,16 @@ class Lang {
   //   );
   // }
 
-  String product(num count) {
-    return Intl.plural(
-      count,
-      one: 'Product',
-      other: 'Products',
-      name: 'Products',
-      desc: '',
-      args: [count],
-    );
-  }
+  // String product(num count) {
+  //   return Intl.plural(
+  //     count,
+  //     one: 'Product',
+  //     other: 'Products',
+  //     name: 'Products',
+  //     desc: '',
+  //     args: [count],
+  //   );
+  // }
 
   /// `General UI`
   String get generalUi {
@@ -987,6 +997,15 @@ class Lang {
     );
   }
 
+  String get addProduct {
+    return Intl.message(
+      'Add Product',
+      name: 'addProduct',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get addAge {
     return Intl.message(
       'Add Age',
@@ -1041,14 +1060,6 @@ class Lang {
     );
   }
 
-  String get addProduct {
-    return Intl.message(
-      'Add Product',
-      name: 'addProduct',
-      desc: '',
-      args: [],
-    );
-  }
 
   String get editProduct {
     return Intl.message(

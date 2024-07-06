@@ -31,6 +31,11 @@ final sidebarMenuConfigs = [
     title: (context) => Lang.of(context).brand(1),
   ),
   SidebarMenuConfig(
+    uri: RouteUri.productScreen,
+    icon: Icons.person_rounded,
+    title: (context) => Lang.of(context).product(1),
+  ),
+  SidebarMenuConfig(
     uri: RouteUri.personalprofile,
     icon: Icons.person_rounded,
     title: (context) => Lang.of(context).personalprofile(1),

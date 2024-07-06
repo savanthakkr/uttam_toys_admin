@@ -18,14 +18,14 @@ import 'package:uttam_toys/views/widgets/portal_master_layout/portal_master_layo
 
 import '../../Model/get_sub_category_model.dart';
 
-class SubCategoryScreen extends StatefulWidget {
-  const SubCategoryScreen({Key? key}) : super(key: key);
+class ProductScreen extends StatefulWidget {
+  const ProductScreen({Key? key}) : super(key: key);
 
   @override
-  State<SubCategoryScreen> createState() => _SubCategoryScreenState();
+  State<ProductScreen> createState() => _ProductScreenState();
 }
 
-class _SubCategoryScreenState extends State<SubCategoryScreen> {
+class _ProductScreenState extends State<ProductScreen> {
 
   late UserDataModel _userDataModel;
   List<Subcategory> usermodelList = <Subcategory>[];
@@ -89,7 +89,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                 children: [
                   Expanded(
                     child: Text(
-                      lang.subCategory(1),
+                      lang.product(1),
                       style: themeData.textTheme.headlineMedium,
                     ),
                   ),
@@ -103,12 +103,12 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                       ),
                       onPressed: () {
                         context.goNamed(
-                          "addSubCatgeoryScreen",
+                          "addProductScreen",
                         );
                       },
                       child: Padding(
                           padding: EdgeInsets.only(top: 10.0,bottom: 10.0),
-                          child: Text("Add Sub Category",style: GoogleFonts.inter(fontSize: 14.0,fontWeight: FontWeight.w800,color: Colors.white),)))
+                          child: Text("Add Product",style: GoogleFonts.inter(fontSize: 14.0,fontWeight: FontWeight.w800,color: Colors.white),)))
                 ],
               ),
               Padding(
@@ -119,7 +119,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CardHeader(
-                        title: lang.subCategory(1),
+                        title: lang.product(1),
                       ),
                       CardBody(
                         child: Column(
@@ -198,9 +198,9 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                                         width: dataTableWidth,
                                         child: Theme(
                                           data: themeData.copyWith(
-                                            cardTheme: appDataTableTheme.cardTheme,
-                                            dataTableTheme: appDataTableTheme.dataTableThemeData,
-                                            iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.white),
+                                              cardTheme: appDataTableTheme.cardTheme,
+                                              dataTableTheme: appDataTableTheme.dataTableThemeData,
+                                              iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.white),
                                               dividerColor: Colors.grey.shade200,
                                               dividerTheme: Theme.of(context).dividerTheme.copyWith(thickness: 0,color: Colors.transparent,endIndent: 0,indent: 0,space: 0)
                                           ),
@@ -283,31 +283,31 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
       print(e.toString());
     }
   }
-void _onLoginError(BuildContext context, String message) {
-  final dialog = AwesomeDialog(
-    context: context,
-    dialogType: DialogType.error,
-    desc: message,
-    width: kDialogWidth,
-    btnOkText: 'OK',
-    btnOkOnPress: () {},
-  );
+  void _onLoginError(BuildContext context, String message) {
+    final dialog = AwesomeDialog(
+      context: context,
+      dialogType: DialogType.error,
+      desc: message,
+      width: kDialogWidth,
+      btnOkText: 'OK',
+      btnOkOnPress: () {},
+    );
 
-  dialog.show();
-}
+    dialog.show();
+  }
 //
-void _onSuccess(BuildContext context, String message) {
-  final dialog = AwesomeDialog(
-    context: context,
-    dialogType: DialogType.success,
-    desc: message,
-    width: kDialogWidth,
-    btnOkText: 'OK',
-    btnOkOnPress: () {},
-  );
+  void _onSuccess(BuildContext context, String message) {
+    final dialog = AwesomeDialog(
+      context: context,
+      dialogType: DialogType.success,
+      desc: message,
+      width: kDialogWidth,
+      btnOkText: 'OK',
+      btnOkOnPress: () {},
+    );
 
-  dialog.show();
-}
+    dialog.show();
+  }
 
 }
 

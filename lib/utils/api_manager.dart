@@ -27,7 +27,7 @@ import 'package:uttam_toys/Model/view_profile_model.dart';
 
 class ApiManager {
 
-  static String BASE_URL = "http://192.168.42.193:5000/uttam/users/";
+  static String BASE_URL = "http://192.168.1.4:5000/uttam/users/";
   // static String BASE_URL = "http://3.110.124.116:5000/uttam/users/";
 
   // static String IMAGE_URL = "https://www.shabakh.com/TransFor/api/uploads/";
@@ -66,6 +66,33 @@ class ApiManager {
         },
         body: jsonEncode(<String, dynamic>{
           'title': title,
+          'images': images,
+        }));
+
+    return resultModelFromJson(response.body);
+  }
+
+  static Future<ResultModel> AddProduct(String title,String category_id,String sub_category_id,String brand_id,String description_short,String description_long,String main_price,String discount_price,String quantity,String sku,String tax_value, String tags, String age,  String images) async
+  {
+
+    final response = await http.post(Uri.parse("${BASE_URL}createProduct"),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'name': title,
+          'category_id': category_id,
+          'sub_category_id': sub_category_id,
+          'brand_id': brand_id,
+          'description_short': description_short,
+          'description_long': description_long,
+          'main_price': main_price,
+          'discount_price': discount_price,
+          'quantity': quantity,
+          'sku': sku,
+          'tax_value': tax_value,
+          'tags': tags,
+          'age': age,
           'images': images,
         }));
 
