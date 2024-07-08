@@ -242,8 +242,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
     );
   }
 
-
-  fetchUser() async {
+fetchUser() async {
     setState(() {
       _isLoading = true;
     });
@@ -283,6 +282,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
       print(e.toString());
     }
   }
+
 void _onLoginError(BuildContext context, String message) {
   final dialog = AwesomeDialog(
     context: context,

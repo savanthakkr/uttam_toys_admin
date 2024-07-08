@@ -22,8 +22,11 @@ import 'package:uttam_toys/utils/api_manager.dart';
 import 'package:uttam_toys/views/widgets/card_elements.dart';
 import 'package:uttam_toys/views/widgets/portal_master_layout/portal_master_layout.dart';
 
+import '../../Model/get_sub_category_model.dart';
 import '../../app_router.dart';
 import '../../utils/connection_utils.dart';
+import 'dart:html' as html;
+import 'dart:io' as Io;
 
 class AddProductScreen extends StatefulWidget {
   AddProductScreen({super.key});
@@ -49,12 +52,17 @@ class _AddProductScreenState extends State<AddProductScreen> {
   TextEditingController _taxvalueController = TextEditingController();
   TextEditingController _tagsController = TextEditingController();
   TextEditingController _ageController = TextEditingController();
+  Subcategory? selectedSubCategory;
   Category? selectedCategory;
   String selectedCategoryName = "";
+  String selectedSubCategoryName = "";
   String? dname,adminid;
   String? imageUrl,imageName,img64;
   Uint8List? bytesFromPicker = null;
+  List<String> imagebytes = <String>[];
   List<Category> usermodelList = <Category>[];
+  List<Subcategory> usermodeSubCategorylList = <Subcategory>[];
+  List<Uint8List> imageBytes = [];
 
   @override
   void initState() {
@@ -62,6 +70,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     super.initState();
     _getDataAsync();
     fetchCategory();
+    fetchSubCtegory();
   }
 
   _getDataAsync() async {
@@ -179,43 +188,36 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               children: [
                                 Expanded(
                                   flex: 1,
-                                  child: FormBuilderTextField(
-                                    name: 'Category id',
-                                    controller: _categoryController,
+                                  child: DropdownButtonFormField<Subcategory>(
                                     decoration: const InputDecoration(
-                                      labelText: 'Category id ',
-                                      hintText: 'Category id ',
+                                      labelText: 'Sub Category Name',
+                                      hintText: 'Sub Category Name',
                                       border: OutlineInputBorder(),
                                       floatingLabelBehavior: FloatingLabelBehavior.always,
                                     ),
-                                    onSaved: (value1) => (_dnameController.text = value1 ?? ''),
-                                    validator: FormBuilderValidators.required(errorText: "Please enter Category id "),
+                                    value: selectedSubCategory,
+                                    onChanged: (Subcategory? newValue) {
+                                      setState(() {
+                                        selectedSubCategory = newValue!;
+                                        selectedSubCategoryName = newValue.name; // Store the selected category name
+                                      });
+                                      print(selectedSubCategoryName);
+                                      print("objectobjectobject");
+                                    },
+                                    items: usermodeSubCategorylList.map((Subcategory category) {
+                                      return DropdownMenuItem<Subcategory>(
+                                        value: category,
+                                        child: Text(category.name),
+                                      );
+                                    }).toList(),
+                                    validator: (value) {
+                                      if (value == null) {
+                                        return 'Please select a Sub Category';
+                                      }
+                                      return null;
+                                    },
                                   ),
                                 ),
-
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: kDefaultPadding * 1.5),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: FormBuilderTextField(
-                                    name: 'Sub Category id',
-                                    controller: _subCategoryController,
-                                    decoration: const InputDecoration(
-                                      labelText: 'Sub Category id ',
-                                      hintText: 'Sub Category id ',
-                                      border: OutlineInputBorder(),
-                                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                                    ),
-                                    onSaved: (value1) => (_dnameController.text = value1 ?? ''),
-                                    validator: FormBuilderValidators.required(errorText: "Please enter Sub Category id "),
-                                  ),
-                                ),
-
                               ],
                             ),
                           ),
@@ -450,17 +452,17 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(bottom: kDefaultPadding * 1.5),
+                            padding: const EdgeInsets.only(bottom: 16.0), // Replace kDefaultPadding if not defined
                             child: FormBuilderAssetPicker(
                               name: 'file_picker',
                               allowedExtensions: const ['jpg', 'png'],
-                              allowMultiple: false,
+                              allowMultiple: true,
                               maxFiles: 5,
                               type: FileType.custom,
                               decoration: const InputDecoration(
-                                  labelText: 'Area Image',
-                                  border: OutlineInputBorder(),
-                                  counterText: ""
+                                labelText: 'Area Image',
+                                border: OutlineInputBorder(),
+                                counterText: "",
                               ),
                               withData: true,
                               selector: const Row(
@@ -469,12 +471,23 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                   Text('Upload'),
                                 ],
                               ),
-                              onChanged: (value){
-                                setState(() {
-                                  imageName = value!.first.name;
-                                  bytesFromPicker = value.first.bytes;
-                                  img64 = base64Encode(bytesFromPicker!);
-                                });
+                              onChanged: (value) async {
+                                imagebytes.clear(); // Clear previous selections
+                                if (value != null) {
+                                  for (var platformFile in value) {
+                                    if (platformFile.bytes != null) {
+                                      setState(() {
+                                        // imageBytes.add(platformFile.bytes!);
+                                        imagebytes.add(base64Encode(platformFile.bytes!));
+                                      });
+                                    } else {
+                                      print("File bytes are null for ${platformFile.name}");
+                                    }
+                                  }
+                                }
+                                for (var bytes in imagebytes) {
+                                  print(bytes);
+                                }
                               },
                             ),
                           ),
@@ -516,7 +529,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                       if (_formKey.currentState!.validate()) {
                                         dname = _dnameController.text.trim();
 
-                                        if(bytesFromPicker == null){
+                                        if(imagebytes.isEmpty){
                                           _onLoginError(context, "Please select Image");
                                         } else {
                                           addCategory();
@@ -557,6 +570,36 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
 
+  fetchSubCtegory() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try{
+      final SubCategoriesModel responseModel = await ApiManager.FetchSubCategoryApi();
+      if(responseModel.error == false) {
+        setState(() {
+          usermodeSubCategorylList = responseModel.subcategories;
+
+          _isLoading = false;
+        });
+
+      } else{
+        setState(() {
+          _isLoading = false;
+        });
+        _onLoginError(context, "User not found");
+      }
+    }
+    on Exception catch(_,e){
+      setState(() {
+        _isLoading = false;
+      });
+      _onLoginError(context, e.toString());
+      print(e.toString());
+    }
+  }
+
   fetchCategory() async {
     setState(() {
       _isLoading = true;
@@ -595,8 +638,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
     try {
       final ResultModel resultModel = await ApiManager.AddProduct(
         _dnameController.text.trim(),
-        _categoryController.text.trim(),
-          _subCategoryController.text.trim(),
+        selectedCategoryName,
+        selectedSubCategoryName,
           _brandController.text.trim(),
           _descriptionshortController.text.trim(),
           _descriptionlongController.text.trim(),
@@ -607,7 +650,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
           _taxvalueController.text.trim(),
           _tagsController.text.trim(),
           _ageController.text.trim(),
-        img64!,
+        imagebytes!,
       );
 
       if (!resultModel.error) {

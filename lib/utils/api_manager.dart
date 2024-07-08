@@ -72,7 +72,7 @@ class ApiManager {
     return resultModelFromJson(response.body);
   }
 
-  static Future<ResultModel> AddProduct(String title,String category_id,String sub_category_id,String brand_id,String description_short,String description_long,String main_price,String discount_price,String quantity,String sku,String tax_value, String tags, String age,  String images) async
+  static Future<ResultModel> AddProduct(String title,String category_id,String sub_category_id,String brand_id,String description_short,String description_long,String main_price,String discount_price,String quantity,String sku,String tax_value, String tags, String age,  List<String> images) async
   {
 
     final response = await http.post(Uri.parse("${BASE_URL}createProduct"),
@@ -96,6 +96,8 @@ class ApiManager {
           'images': images,
         }));
 
+
+    print(response.body);
     return resultModelFromJson(response.body);
   }
 
@@ -122,6 +124,7 @@ class ApiManager {
 
     return getCategoryFromJson(response.body);
   }
+
 
   static Future<ResultModel> AddAge(String title) async
   {
